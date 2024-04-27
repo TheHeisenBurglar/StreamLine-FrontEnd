@@ -25,7 +25,7 @@ export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
-      <Box bg={useColorModeValue('coral', 'chocolate')} px={4}>
+      <Box bg={useColorModeValue('coral', 'chocolate')} px={4} position={'fixed'} w={'100%'}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <Box fontWeight={"bold"}>StreamLine</Box>
 
