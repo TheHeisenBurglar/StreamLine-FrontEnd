@@ -98,7 +98,7 @@ export default function Homepage() {
             bg={"orange.400"}
             _hover={{ bg: "orange.500" }}
           >
-            Sign Up
+            Request Account
           </Button>
         </Stack>
         <Divider background={"chocolate"} />

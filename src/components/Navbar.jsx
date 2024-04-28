@@ -18,11 +18,13 @@ import {
   Center,
 } from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
+import { useNavigate } from 'react-router-dom'
 
 
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const nav = useNavigate();
   return (
     <>
       <Box bg={useColorModeValue('coral', 'chocolate')} px={4} position={'fixed'} w={'100%'}>
@@ -31,41 +33,14 @@ export default function Navbar() {
 
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
-              <Button onClick={toggleColorMode}>
+              <Button onClick={toggleColorMode} bg={useColorModeValue('gray.200', 'gray.700')}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
-
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rounded={'full'}
-                  variant={'link'}
-                  cursor={'pointer'}
-                  minW={0}>
-                  <Avatar
-                    size={'sm'}
-                    src={'https://avatars.dicebear.com/api/male/username.svg'}
-                  />
-                </MenuButton>
-                <MenuList alignItems={'center'}>
-                  <br />
-                  <Center>
-                    <Avatar
-                      size={'2xl'}
-                      src={'https://avatars.dicebear.com/api/male/username.svg'}
-                    />
-                  </Center>
-                  <br />
-                  <Center>
-                    <p>Username</p>
-                  </Center>
-                  <br />
-                  <MenuDivider />
-                  <MenuItem>Your Servers</MenuItem>
-                  <MenuItem>Account Settings</MenuItem>
-                  <MenuItem>Logout</MenuItem>
-                </MenuList>
-              </Menu>
+              <Button bg={useColorModeValue('gray.200', 'gray.700')} onClick={()=>{
+                    nav("/login")
+                  }}>
+                Login
+              </Button>
             </Stack>
           </Flex>
         </Flex>
