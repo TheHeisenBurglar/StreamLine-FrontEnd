@@ -21,7 +21,7 @@ import { useDispatch } from "react-redux";
 import { updateInvs } from "../../Redux/invs/invs.actions";
 import { useState } from "react";
 
-export default function InvCard({ name, tag, dim, cost, voh, _id }) {
+export default function InvCard({ name, tag, dim, quantity, cost, voh, _id }) {
   const dispatch = useDispatch();
 
   const [tempTag, setTempTag] = useState("");
@@ -31,6 +31,7 @@ export default function InvCard({ name, tag, dim, cost, voh, _id }) {
   const [newName, setName] = useState(name);
   const [newTag, setTag] = useState(tag);
   const [newDim, setDim] = useState(dim);
+  const [newQuantity, setQuantity] = useState(quantity)
   const [newCost, setCost] = useState(cost);
   const [newVoh, setVoh] = useState(voh);
   const updateInv = () => {
@@ -39,11 +40,19 @@ export default function InvCard({ name, tag, dim, cost, voh, _id }) {
         name: newName,
         tag: newTag,
         dim: newDim,
+        quantity: newQuantity,
         cost: newCost,
         voh: newVoh,
       })
     );
   };
+  //VALUE ON HAND
+  const handleVOH = (price, amount) =>{
+    setVoh(price*amount)
+    setCost(price)
+    setQuantity(amount)
+  }
+
   // DIMENSIONS
   let dims = newDim ? newDim.split("x") : [];
 
@@ -83,6 +92,8 @@ export default function InvCard({ name, tag, dim, cost, voh, _id }) {
             {name}
           </Heading>
         </Stack>
+        <Text>Quantity:</Text>
+        <Heading>{quantity}</Heading>
         <Text>Dimensions:</Text>
         <Stack direction={"row"} justify={"center"} spacing={3}>
           <Stack
@@ -164,6 +175,15 @@ export default function InvCard({ name, tag, dim, cost, voh, _id }) {
                   setName(e.target.value);
                 }}
               ></Input>
+              <Heading>Quantity:</Heading>
+              <Input
+                value={newQuantity}
+                placeholder={quantity}
+                textAlign={"center"}
+                onChange={(e) => {
+                  handleVOH(newCost, e.target.value);
+                }}
+              ></Input>
               <Heading>Dimensions:</Heading>
               <Box display={"flex"}>
                 <Input width={"45%"} placeholder={dims[0]} textAlign={"center"} value={dims[0]}  onChange={(e) => handleSetDims(0, e.target.value)}></Input>
@@ -215,19 +235,12 @@ export default function InvCard({ name, tag, dim, cost, voh, _id }) {
                 placeholder={"$" + cost}
                 value={newCost}
                 onChange={(e) => {
-                  setCost(e.target.value);
+                  handleVOH(e.target.value, quantity);
                 }}
                 textAlign={"center"}
               ></Input>
               <Heading>Value On Hand (VOH)</Heading>
-              <Input
-                placeholder={"$" + voh}
-                value={newVoh}
-                onChange={(e) => {
-                  setVoh(e.target.value);
-                }}
-                textAlign={"center"}
-              ></Input>
+              <Text>{newVoh}</Text>
             </ModalBody>
             <ModalFooter justifyContent={"center"} gap={2}>
               <Button

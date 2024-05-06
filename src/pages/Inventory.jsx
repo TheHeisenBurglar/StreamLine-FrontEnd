@@ -43,6 +43,7 @@ export default function Inventorypage() {
   const [name, setName] = useState("");
   const [tag, setTag] = useState("");
   const [dim, setDim] = useState("");
+  const [quantity, setQuantity] = useState("");
   const [cost, setCost] = useState("");
   const [voh, setVOH] = useState("");
   const [tempTag, setTempTag] = useState("");
@@ -54,7 +55,7 @@ export default function Inventorypage() {
     setInvs(data);
   }, [data]);
   const createInv = () => {
-    dispatch(createInvs({ name, tag, dim, cost, voh }));
+    dispatch(createInvs({ name, tag, dim, quantity, cost, voh }));
     onClose();
   };
   function handleNew() {
@@ -174,6 +175,14 @@ export default function Inventorypage() {
               placeholder="Name"
               onChange={(e) => {
                 setDim(e.target.value);
+              }}
+            ></Input>
+            <Heading>Quantity</Heading>
+            <Input
+              value={quantity}
+              placeholder="Name"
+              onChange={(e) => {
+                setQuantity(e.target.value);
               }}
             ></Input>
             <Heading>Cost</Heading>
