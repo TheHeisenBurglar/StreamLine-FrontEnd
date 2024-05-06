@@ -27,7 +27,7 @@ export default function Navbar() {
   const nav = useNavigate();
   return (
     <>
-      <Box bg={useColorModeValue('coral', 'chocolate')} px={4} position={'fixed'} w={'100%'}>
+      <Box bg={useColorModeValue('coral', 'chocolate')} px={4} position={'fixed'} w={'100%'} zIndex={9999}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <Box fontWeight={"bold"}>StreamLine</Box>
 

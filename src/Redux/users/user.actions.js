@@ -13,9 +13,9 @@ export const getUser = (obj) => async (dispatch) => {
       method: "post",
       data: obj
     })
-    let { message, token, status } = data.data;
+    let { message, token, status} = data.data;
     if (status == 1) {
-      dispatch({ type: LOGIN_USER_SUCCESS, payload:token });
+      dispatch({ type: LOGIN_USER_SUCCESS, payload:token});
     } else {
       alert(message);
       dispatch({ type: LOGIN_USER_ERROR });

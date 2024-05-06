@@ -1,150 +1,239 @@
 import {
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
   Flex,
   useColorModeValue,
   Text,
   Container,
   Box,
-  chakra,
-  SimpleGrid,
   Stat,
   StatLabel,
   StatNumber,
-  Heading,
   Stack,
   Button,
-  Icon,
-  IconProps,
-  Image,
-  Divider,
   Card,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
   Grid,
-  GridItem,
-  List,
-  ListItem,
   Modal,
+  useDisclosure,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
-  ModalBody,
   ModalCloseButton,
+  ModalBody,
+  Input,
+  ModalFooter,
+  SimpleGrid,
+  InputGroup,
+  IconButton,
+  Heading,
+  Divider,
 } from "@chakra-ui/react";
-import { Navbar } from "../components";
-import tproll from "../assets/tp_roll.png";
-import { ReactNode } from "react";
-import { FiUser, FiBox, FiBookmark } from "react-icons/fi";
-import { ChevronDownIcon } from "@chakra-ui/icons";
-
-function InvCard(props) {
-  const { name, dim, tag, voh } = props;
-  let dimen = [];
-  dimen = dim.split("x");
-  let tags = [];
-  tags = tag.split(",");
-  return (
-    <Stat
-      px={{ base: 2, md: 4 }}
-      py={"3"}
-      shadow={"xl"}
-      border={"2px solid"}
-      borderColor={useColorModeValue("gray.500", "white")}
-      background={useColorModeValue("coral", "chocolate")}
-      rounded={"lg"}
-    >
-      <Flex justifyContent={"center"}>
-        <Box>
-          <StatLabel fontWeight={"medium"} isTruncated>
-            <Text fontSize={"lg"}>
-              Item Name:{" "}
-              <Card
-              p={"4px"}
-                bg={"gray.500"}
-                textColor={"white"}
-                border={"2px solid"}
-                rounded={"lg"}
-                _dark={{ bg: "white", textColor: "black" }}
-              >
-                {name}
-              </Card>
-            </Text>
-          </StatLabel>
-          <StatNumber fontSize={"2xl"} fontWeight={"medium"}>
-            Dimensions
-            <Grid
-              templateColumns={"repeat(2, 1fr)"}
-              fontSize={"medium"}
-              gap={"2"}
-            >
-              {dimen.map((dimen) => (
-                <Card
-                  bg={"gray.500"}
-                  textColor={"white"}
-                  border={"2px solid"}
-                  rounded={"lg"}
-                  _dark={{ bg: "white", textColor: "black" }}
-                >
-                  {dimen}
-                </Card>
-              ))}
-            </Grid>
-          </StatNumber>
-          <StatNumber fontSize={"2xl"} fontWeight={"medium"}>
-            <Text>Value On Hand</Text>
-            <Card
-              bg={"gray.500"}
-              textColor={"white"}
-              border={"2px solid"}
-              rounded={"lg"}
-              _dark={{ bg: "white", textColor: "black" }}
-            >
-              ${voh}
-            </Card>
-          </StatNumber>
-          <Button
-            marginTop={"12px"}
-            bgColor={useColorModeValue("white", "gray.700")}
-          >
-            More
-          </Button>
-        </Box>
-      </Flex>
-    </Stat>
-  );
-}
-
+import { ReactNode, useEffect, useState } from "react";
+import axios from "axios";
+import { BASE_URL } from "../Constants/config";
+import { useDispatch, useSelector } from "react-redux";
+import { store } from "../Redux/store";
+import { createInvs, getInvs } from "../Redux/invs/invs.actions";
+import InvCard from "../components/InvsPage/InvCard";
+import { PiPlusLight } from "react-icons/pi";
+import { LuPackagePlus } from "react-icons/lu";
 export default function Inventorypage() {
+  const { loading, error, data } = useSelector((state) => state.invReducer);
+  const dispatch = useDispatch();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [invs, setInvs] = useState([]);
+  const [name, setName] = useState("");
+  const [tag, setTag] = useState("");
+  const [dim, setDim] = useState("");
+  const [cost, setCost] = useState("");
+  const [voh, setVOH] = useState("");
+  const [tempTag, setTempTag] = useState("");
+  const handleChange = (e) => setTempTag(e.target.value);
+  useEffect(() => {
+    dispatch(getInvs());
+  }, []);
+  useEffect(() => {
+    setInvs(data);
+  }, [data]);
+  const createInv = () => {
+    dispatch(createInvs({ name, tag, dim, cost, voh }));
+    onClose();
+  };
+  function handleNew() {
+    setTag(null);
+    onOpen();
+  }
+  function findIdByTag() {
+    // Get value from search bar
+    let input = document.getElementById("search");
+    // SEARCH TIME
+    let invsArray = [];
+    invsArray = invs.forEach((temptag) => {
+      const isVisible =
+        temptag.name.includes(input.value) || temptag.tag.includes(input.value);
+      let searchedCard = document.getElementById(temptag._id);
+      searchedCard.classList.toggle("hide", !isVisible);
+    });
+  }
+  //TAGS
+  let tags = tag ? tag.split(",") : [];
+  //tags = newTag.value.split(",");
+  const addTag = (tag) => {
+    if (!tags.includes(tag)) {
+      tags.push(tag);
+      setTag(tags.join(","));
+    }
+    let addtagElement = document.getElementById("addtag");
+    addtagElement.value = "";
+    console.warn("tags: ", tags)
+    return(
+      <div>{tags}</div>
+    )
+  };
+  const removeTag = (tag, id) => {
+    const updatedTags = tags.filter((t) => t !== tag);
+    setTag(updatedTags.join(","));
+  };
   return (
-    <Container maxW={"5xl"}>
-      <Stack
-        textAlign={"center"}
-        align={"center"}
-        spacing={{ base: 8, md: 10 }}
-        py={{ base: 20, md: 28 }}
+    <Box padding={20}>
+      <Flex>
+        <InputGroup justifyContent={"center"} gap={4}>
+          <Input width={"60%"} id="search" onChange={findIdByTag}></Input>
+        </InputGroup>
+      </Flex>
+      <SimpleGrid
+        gap={2}
+        w={"90%"}
+        margin={"auto"}
+        paddingTop={8}
+        minChildWidth={"220px"}
       >
-        <Grid>
-          <GridItem>
-            <InvCard
-              name={"2"}
-              dim={"22x44"}
-              tag={"paper, silk, text"}
-              voh={"200"}
-            />
-          </GridItem>
-        </Grid>
-      </Stack>
-    </Container>
+        {invs?.map((el) => {
+          return <InvCard {...el} />;
+        })}
+      </SimpleGrid>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay backdropBlur={"2px"} />
+        <ModalContent
+          border={"2px"}
+          borderColor={useColorModeValue("coral", "chocolate")}
+          rounded={"lg"}
+          m={"auto"}
+        >
+          <ModalHeader textAlign={"center"}>New Item</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Heading>Item Name</Heading>
+            <Input
+              value={name}
+              placeholder="Name"
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            ></Input>
+            <Heading>Tags</Heading>
+            {tags?.map((el, index) => (
+              <InputGroup gap={2} m={2}>
+                <Input placeholder={el} value={tags[index]}></Input>
+                <Button
+                bgColor={"#FE4747"}
+                _hover={{
+                  bg: "#FE6868",
+                }}
+                _focus={{
+                  bg: "#FE4747",
+                }}
+                onClick={() => {
+                  removeTag(el);
+                }}>
+                  DEL
+                </Button>
+              </InputGroup>
+            ))}
+            <Divider />
+              <InputGroup gap={2} m={2}>
+                <Input
+                  placeholder="new tag"
+                  onChange={handleChange}
+                  id="addtag"
+                ></Input>
+                <Button
+                  onClick={() => addTag(tempTag)}
+                  bgColor={"#38DE32"}
+                  _hover={{
+                    bg: "#33CA2D",
+                  }}
+                  _focus={{
+                    bg: "#38DE32",
+                  }}
+                >
+                  ADD
+                </Button>
+                </InputGroup>
+            <Heading>Dimensions</Heading>
+            <Input
+              value={dim}
+              placeholder="Name"
+              onChange={(e) => {
+                setDim(e.target.value);
+              }}
+            ></Input>
+            <Heading>Cost</Heading>
+            <Input
+              value={cost}
+              placeholder="Name"
+              onChange={(e) => {
+                setCost(e.target.value);
+              }}
+            ></Input>
+            <Heading>Value On Hand</Heading>
+            <Input
+              value={voh}
+              placeholder="Name"
+              onChange={(e) => {
+                setVOH(e.target.value);
+              }}
+            ></Input>
+          </ModalBody>
+          <ModalFooter justifyContent={"center"} gap={2}>
+            <Button
+              onClick={createInv}
+              _light={{
+                bgColor: "black",
+                color: useColorModeValue("white", "black"),
+              }}
+            >
+              Save
+            </Button>
+            <Button
+              onClick={onClose}
+              _light={{
+                bgColor: "black",
+                color: useColorModeValue("white", "black"),
+              }}
+            >
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <IconButton
+        position={"fixed"}
+        bottom={0}
+        right={0}
+        margin={4}
+        w={20}
+        h={20}
+        borderRadius={50}
+        bg={useColorModeValue("#151f21", "gray.700")}
+        boxShadow={
+          "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;"
+        }
+        icon={<LuPackagePlus size={"28px"} color="white" />}
+        _hover={{
+          transform: "translateY(-2px)",
+          boxShadow: "lg",
+        }}
+        onClick={handleNew}
+      ></IconButton>
+    </Box>
   );
 }
