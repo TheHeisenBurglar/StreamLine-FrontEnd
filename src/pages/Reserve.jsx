@@ -35,7 +35,7 @@ import { createInvs, getInvs } from "../Redux/invs/invs.actions";
 import InvCard from "../components/InvsPage/InvCard";
 import { PiPlusLight } from "react-icons/pi";
 import { LuPackagePlus } from "react-icons/lu";
-export default function Inventorypage() {
+export default function Reservepage() {
   const { loading, error, data } = useSelector((state) => state.invReducer);
   const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -96,7 +96,7 @@ export default function Inventorypage() {
   return (
     <Box padding={20}>
       <Flex>
-        <Text>Inventories</Text>
+        <Text>RESERVES</Text>
         <InputGroup justifyContent={"center"} gap={4}>
           <Input width={"60%"} id="search" onChange={findIdByTag} placeholder="search"></Input>
         </InputGroup>

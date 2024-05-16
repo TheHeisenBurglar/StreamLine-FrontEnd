@@ -16,11 +16,12 @@ import {
   Stack,
   useColorMode,
   Center,
+  Divider,
 } from "@chakra-ui/react";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { LOGOUT } from '../Redux/users/user.types';
+import { LOGOUT } from "../Redux/users/user.types";
 
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -29,7 +30,7 @@ export default function Navbar() {
     (state) => state.userReducer
   );
   const dispatch = useDispatch();
-  console.warn("auth: ", auth)
+  console.warn("auth: ", auth);
   const nav = useNavigate();
   return (
     <>
@@ -41,10 +42,58 @@ export default function Navbar() {
         zIndex={9999}
       >
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <Box fontWeight={"bold"}>StreamLine</Box>
+          <Box
+            fontWeight={"bold"}
+            onClick={() => {
+              nav("/");
+            }}
+          >
+            StreamLine
+          </Box>
 
           <Flex alignItems={"center"}>
-            <Stack direction={"row"} spacing={7}>
+            <Stack direction={"row"} spacing={4}>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rightIcon={<ChevronDownIcon />}
+                  bg={useColorModeValue("gray.200", "gray.700")}
+                  display={auth == true ? "block" : "none"}
+                >
+                  Menu
+                </MenuButton>
+                <MenuList>
+                  <MenuItem
+                    onClick={() => {
+                      nav("/dash");
+                    }}
+                  >
+                    Dashboard
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      nav("/inv");
+                    }}
+                  >
+                    Inventories
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      nav("/resv");
+                    }}
+                  >
+                    Reserves
+                  </MenuItem>
+                  <Divider />
+                  <MenuItem
+                    onClick={() => {
+                      dispatch({ type: LOGOUT });
+                    }}
+                  >
+                    Log Out
+                  </MenuItem>
+                </MenuList>
+              </Menu>
               <Button
                 onClick={toggleColorMode}
                 bg={useColorModeValue("gray.200", "gray.700")}
@@ -53,19 +102,12 @@ export default function Navbar() {
               </Button>
               <Button
                 bg={useColorModeValue("gray.200", "gray.700")}
-                display={auth==true?"none":"block"}
-                //onClick={nav("/login")}
-              >
-                Login
-              </Button>
-              <Button
-                bg={useColorModeValue("gray.200", "gray.700")}
-                //display={auth==true?"block":"none"}
-                onClick={()=>{
-                  dispatch({type:LOGOUT})
+                display={auth == true ? "none" : "block"}
+                onClick={() => {
+                  nav("/login");
                 }}
               >
-                Log Out
+                Login
               </Button>
             </Stack>
           </Flex>
