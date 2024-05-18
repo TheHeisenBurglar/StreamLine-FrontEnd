@@ -18,63 +18,59 @@ import {
   InputGroup,
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
-import { updateInvs } from "../../Redux/invs/invs.actions";
+import { updateResvs } from "../../Redux/resvs/resvs.actions";
 import { useState } from "react";
 
-export default function InvCard({ name, tag, dim, quantity, cost, voh, _id }) {
+export default function ResvCard({ invitem, amount, ordernum, username, status, _id }) {
   const dispatch = useDispatch();
-
-  const [tempTag, setTempTag] = useState("");
-  const [tempDim, setTempDim] = useState("");
-  const handleChange = (e) => setTempTag(e.target.value);
+  //NEW
+  const [tempNum, setTempNum] = useState(ordernum)
+  const [tempAmount, setTempAmount] = useState(amount)
+  const [tempPerson, setTempPerson] = useState(username)
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [newName, setName] = useState(name);
-  const [newTag, setTag] = useState(tag);
-  const [newDim, setDim] = useState(dim);
-  const [newQuantity, setQuantity] = useState(quantity)
-  const [newCost, setCost] = useState(cost);
-  const [newVoh, setVoh] = useState(voh);
-  const updateInv = () => {
-    dispatch(
-      updateInvs(_id, {
-        name: newName,
-        tag: newTag,
-        dim: newDim,
-        quantity: newQuantity,
-        cost: newCost,
-        voh: newVoh,
-      })
-    );
-  };
-  //VALUE ON HAND
-  const handleVOH = (price, amount) =>{
-    setVoh(price*amount)
-    setCost(price)
-    setQuantity(amount)
-  }
+ 
+  // //OLD
+  // const updateInv = () => {
+  //   dispatch(
+  //     updateInvs(_id, {
+  //       name: newName,
+  //       tag: newTag,
+  //       dim: newDim,
+  //       quantity: newQuantity,
+  //       cost: newCost,
+  //       voh: newVoh,
+  //     })
+  //   );
+  // };
+  // //VALUE ON HAND
+  // const handleVOH = (price, amount) =>{
+  //   setVoh(price*amount)
+  //   setCost(price)
+  //   setQuantity(amount)
+  // }
 
-  // DIMENSIONS
-  let dims = newDim ? newDim.split("x") : [];
+  // // DIMENSIONS
+  // let dims = newDim ? newDim.split("x") : [];
 
-  const handleSetDims = (index, dimension) => {
-    dims[index] = (dimension);
-    setDim(dims.join("x"));
-  }
-  //TAGS
-  let tags = newTag ? newTag.split(",") : [];
-  //tags = newTag.value.split(",");
-  const addTag = (tag) => {
-    if (!tags.includes(tag)) {
-      tags.push(tag);
-      setTag(tags.join(","));
-    }
-    let addtagElement = document.getElementById("addtag");
-    addtagElement.value = "";
-  };
-  const removeTag = (tag, id) => {
-    const updatedTags = tags.filter((t) => t !== tag);
-    setTag(updatedTags.join(","));
-  };
+  // const handleSetDims = (index, dimension) => {
+  //   dims[index] = (dimension);
+  //   setDim(dims.join("x"));
+  // }
+  // //TAGS
+  // let tags = newTag ? newTag.split(",") : [];
+  // //tags = newTag.value.split(",");
+  // const addTag = (tag) => {
+  //   if (!tags.includes(tag)) {
+  //     tags.push(tag);
+  //     setTag(tags.join(","));
+  //   }
+  //   let addtagElement = document.getElementById("addtag");
+  //   addtagElement.value = "";
+  // };
+  // const removeTag = (tag, id) => {
+  //   const updatedTags = tags.filter((t) => t !== tag);
+  //   setTag(updatedTags.join(","));
+  // };
   return (
     <Box
       maxW={"270px"}
@@ -89,57 +85,13 @@ export default function InvCard({ name, tag, dim, quantity, cost, voh, _id }) {
       <Box p={6}>
         <Stack spacing={0} align={"center"}>
           <Heading fontSize={"2xl"} fontWeight={500} fontFamily={"body"}>
-            {name}
+            {ordernum}
           </Heading>
         </Stack>
-        <Text>Quantity:</Text>
-        <Heading>{quantity}</Heading>
-        <Text>Dimensions:</Text>
-        <Stack direction={"row"} justify={"center"} spacing={3}>
-          <Stack
-            spacing={0}
-            align={"center"}
-            border={"2px"}
-            _dark={"chocolate"}
-            rounded={"md"}
-            minWidth={"80px"}
-          >
-            <Text fontWeight={600}>{dims[0]}</Text>
-          </Stack>
-          <Text>X</Text>
-          <Stack
-            spacing={0}
-            align={"center"}
-            border={"2px"}
-            _dark={"chocolate"}
-            rounded={"md"}
-            minWidth={"80px"}
-          >
-            <Text fontWeight={600}>{dims[1]}</Text>
-          </Stack>
-        </Stack>
-        <Text>Tag(s):</Text>
-        <Stack direction={"row"} justify={"center"} spacing={6}>
-          <Stack
-            spacing={0}
-            align={"center"}
-            maxHeight={"70px"}
-            overflowY={"scroll"}
-          >
-            {tags?.map((el) => (
-              <Text
-                fontWeight={600}
-                border={"2px"}
-                _dark={"chocolate"}
-                rounded={"md"}
-                minWidth={"100px"}
-              >
-                {el}
-              </Text>
-            ))}
-          </Stack>
-        </Stack>
-
+        <Text>Sales Person:</Text>
+        <Heading>{username}</Heading>
+        <Text>Satus:</Text>
+        <Button bg={"green"}>OPEN</Button>
         <Button
           w={"full"}
           mt={4}
@@ -162,89 +114,45 @@ export default function InvCard({ name, tag, dim, quantity, cost, voh, _id }) {
             rounded={"lg"}
           >
             <ModalHeader textAlign={"center"}>
-              Item Information
+              Reserve Information
             </ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <Heading>Item Name:</Heading>
+              <Heading>Order #:</Heading>
               <Input
-                value={newName}
-                placeholder={name}
+                value={tempNum}
+                placeholder={ordernum}
                 textAlign={"center"}
                 onChange={(e) => {
-                  setName(e.target.value);
+                  setTempNum(e.target.value);
                 }}
               ></Input>
-              <Heading>Quantity:</Heading>
+              <Heading>Sales Person:</Heading>
               <Input
-                value={newQuantity}
-                placeholder={quantity}
+                value={tempPerson}
+                placeholder={username}
                 textAlign={"center"}
                 onChange={(e) => {
-                  handleVOH(newCost, e.target.value);
+                  setTempPerson(e.target.value);
                 }}
               ></Input>
-              <Heading>Dimensions:</Heading>
-              <Box display={"flex"}>
-                <Input width={"45%"} placeholder={dims[0]} textAlign={"center"} value={dims[0]}  onChange={(e) => handleSetDims(0, e.target.value)}></Input>
-                <Text width={"10%"} fontSize={"x-large"} align={"center"}>X</Text>
-                <Input width={"45%"} placeholder={dims[1]} textAlign={"center"} value={dims[1]} onChange={(e) => handleSetDims(1, e.target.value)}></Input>
-              </Box>
-              <Heading>Tags:</Heading>
-              {tags?.map((el, index) => (
-                <InputGroup gap={2} m={2}>
-                  <Input placeholder={el} value={tags[index]}></Input>
-                  <Button
-                    bgColor={"#FE4747"}
-                    _hover={{
-                      bg: "#FE6868",
-                    }}
-                    _focus={{
-                      bg: "#FE4747",
-                    }}
-                    onClick={() => {
-                      removeTag(el);
-                    }}
-                  >
-                    DEL
-                  </Button>
-                </InputGroup>
-              ))}
-              <Divider />
-              <InputGroup gap={2} m={2}>
-                <Input
-                  placeholder="new tag"
-                  onChange={handleChange}
-                  id="addtag"
-                ></Input>
-                <Button
-                  onClick={() => addTag(tempTag)}
-                  bgColor={"#38DE32"}
-                  _hover={{
-                    bg: "#33CA2D",
-                  }}
-                  _focus={{
-                    bg: "#38DE32",
-                  }}
-                >
-                  ADD
-                </Button>
-              </InputGroup>
-              <Heading>Cost:</Heading>
+              <Heading>Amount:</Heading>
               <Input
-                placeholder={"$" + cost}
-                value={newCost}
+                placeholder={tempAmount}
+                value={amount}
                 onChange={(e) => {
-                  handleVOH(e.target.value, quantity);
+                  setTempAmount(e.target.value);
                 }}
                 textAlign={"center"}
               ></Input>
-              <Heading>Value On Hand (VOH)</Heading>
-              <Text>{newVoh}</Text>
+              <Heading>Status</Heading>
+              <Text>{status}</Text>
+              <Heading>Inv Item</Heading>
+              <Text>{invitem}</Text>
             </ModalBody>
             <ModalFooter justifyContent={"center"} gap={2}>
               <Button
-                onClick={updateInv}
+                //onClick={updateInv}
                 _light={{
                   bgColor: "black",
                   color: useColorModeValue("white", "black"),
