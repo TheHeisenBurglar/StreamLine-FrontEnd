@@ -35,7 +35,7 @@ export default function Navbar() {
   return (
     <>
       <Box
-        bg={useColorModeValue("coral", "chocolate")}
+        bg={useColorModeValue("#66ff66", "#33cc33")}
         px={4}
         position={"fixed"}
         w={"100%"}
@@ -48,7 +48,7 @@ export default function Navbar() {
               nav("/");
             }}
           >
-            StreamLine
+            Printhub Sample Inventory
           </Box>
 
           <Flex alignItems={"center"}>
@@ -57,7 +57,7 @@ export default function Navbar() {
                 <MenuButton
                   as={Button}
                   rightIcon={<ChevronDownIcon />}
-                  bg={useColorModeValue("gray.200", "gray.700")}
+                  bg={useColorModeValue("#ffffff", "gray.700")}
                   display={auth == true ? "block" : "none"}
                 >
                   Menu
@@ -96,12 +96,12 @@ export default function Navbar() {
               </Menu>
               <Button
                 onClick={toggleColorMode}
-                bg={useColorModeValue("gray.200", "gray.700")}
+                bg={useColorModeValue("#ffffff", "gray.700")}
               >
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button>
               <Button
-                bg={useColorModeValue("gray.200", "gray.700")}
+                bg={useColorModeValue("#ffffff", "gray.700")}
                 display={auth == true ? "none" : "block"}
                 onClick={() => {
                   nav("/login");

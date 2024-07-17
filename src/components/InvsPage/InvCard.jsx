@@ -80,7 +80,7 @@ export default function InvCard({ name, tag, dim, quantity, cost, voh, _id }) {
       maxW={"270px"}
       w={"full"}
       border={"2px"}
-      borderColor={useColorModeValue("coral", "chocolate")}
+      borderColor={useColorModeValue("#33cc33", "#66ff66")}
       boxShadow={"2xl"}
       rounded={"md"}
       overflow={"hidden"}
@@ -100,7 +100,7 @@ export default function InvCard({ name, tag, dim, quantity, cost, voh, _id }) {
             spacing={0}
             align={"center"}
             border={"2px"}
-            _dark={"chocolate"}
+            _dark={"#66ff66"}
             rounded={"md"}
             minWidth={"80px"}
           >
@@ -111,7 +111,7 @@ export default function InvCard({ name, tag, dim, quantity, cost, voh, _id }) {
             spacing={0}
             align={"center"}
             border={"2px"}
-            _dark={"chocolate"}
+            _dark={"#66ff66"}
             rounded={"md"}
             minWidth={"80px"}
           >
@@ -130,7 +130,7 @@ export default function InvCard({ name, tag, dim, quantity, cost, voh, _id }) {
               <Text
                 fontWeight={600}
                 border={"2px"}
-                _dark={"chocolate"}
+                _dark={"#66ff66"}
                 rounded={"md"}
                 minWidth={"100px"}
               >
@@ -158,7 +158,7 @@ export default function InvCard({ name, tag, dim, quantity, cost, voh, _id }) {
           <ModalOverlay backdropBlur="2px" />
           <ModalContent
             border={"2px"}
-            borderColor={useColorModeValue("coral", "chocolate")}
+            borderColor={useColorModeValue("#33cc33", "#66ff66")}
             rounded={"lg"}
           >
             <ModalHeader textAlign={"center"}>

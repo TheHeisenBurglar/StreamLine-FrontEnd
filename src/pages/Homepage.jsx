@@ -79,11 +79,11 @@ export default function Homepage() {
           lineHeight={"110%"}
         >
           Inventory Management{" "}
-          <Text as={"span"} color={"orange.400"}>
+          <Text as={"span"} color={"#33cc33"}>
             Made Easy
           </Text>
         </Heading>
-        <Text color={"gray.500"} maxW={"3xl"} fontSize={"22px"}>
+        <Text  maxW={"3xl"} fontSize={"22px"}>
           Simplify inventory management with a system that prevents shortages
           and overstocking. Get email alerts for optimal stock levels and
           monitor everything through a single dashboard. Manage reservations and
@@ -94,14 +94,14 @@ export default function Homepage() {
           <Button
             rounded={"full"}
             px={6}
-            colorScheme={"orange"}
-            bg={"orange.400"}
-            _hover={{ bg: "orange.500" }}
+            // colorScheme={"orange"}
+            bg={"#33cc33"}
+            _hover={{ bg: "#66ff66" }}
           >
             Request Account
           </Button>
         </Stack>
-        <Divider background={"chocolate"} />
+        <Divider background={"#33cc33"} />
         <Accordion allowToggle width="100%" maxW="xl" rounded="lg">
           <AccordionItem border={"none"}>
             <AccordionButton
@@ -124,9 +124,9 @@ export default function Homepage() {
               <Button
                 rounded={"full"}
                 px={6}
-                colorScheme={"orange"}
-                bg={"orange.400"}
-                _hover={{ bg: "orange.500" }}
+                // colorScheme={"orange"}
+                bg={"#33cc33"}
+                _hover={{ bg: "#66ff66" }}
               >
                 Preview This Feature
               </Button>
@@ -153,9 +153,9 @@ export default function Homepage() {
               <Button
                 rounded={"full"}
                 px={6}
-                colorScheme={"orange"}
-                bg={"orange.400"}
-                _hover={{ bg: "orange.500" }}
+                // colorScheme={"orange"}
+                bg={"#33cc33"}
+                _hover={{ bg: "#66ff66" }}
               >
                 Preview This Feature
               </Button>
@@ -182,9 +182,9 @@ export default function Homepage() {
               <Button
                 rounded={"full"}
                 px={6}
-                colorScheme={"orange"}
-                bg={"orange.400"}
-                _hover={{ bg: "orange.500" }}
+                // colorScheme={"orange"}
+                bg={"#33cc33"}
+                _hover={{ bg: "#66ff66" }}
               >
                 Preview This Feature
               </Button>

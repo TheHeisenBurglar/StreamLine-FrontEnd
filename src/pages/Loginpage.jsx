@@ -46,7 +46,7 @@ export default function Loginpage() {
           className="modal"
           boxShadow={"lg"}
           p={8}
-          border={"2px solid coral"}
+          border={"2px solid #66ff66"}
         >
           <Stack align={"center"}>
           <Heading fontSize={"4xl"}>Login</Heading>
@@ -56,7 +56,7 @@ export default function Loginpage() {
               <FormLabel cursor={"none"}>Email address</FormLabel>
               <Input
               className="interactable"
-              border={"2px solid coral"}
+              border={"2px solid #66ff66"}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
@@ -66,7 +66,7 @@ export default function Loginpage() {
               <FormLabel cursor={"none"}>Password</FormLabel>
               <Input
               className="interactable"
-              border={"2px solid coral"}
+              border={"2px solid #66ff66"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 type="password"

@@ -116,7 +116,7 @@ export default function Inventorypage() {
         <ModalOverlay backdropBlur={"2px"} />
         <ModalContent
           border={"2px"}
-          borderColor={useColorModeValue("coral", "chocolate")}
+          borderColor={useColorModeValue("#33cc33", "#66ff66")}
           rounded={"lg"}
           m={"auto"}
         >
